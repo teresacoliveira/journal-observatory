@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journal Observatory Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #f8f9fa;
+      color: #212529;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      background: #2c3e50;
+      color: #fff;
+      padding: 16px 24px 12px;
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 700; line-height: 1.2; }
+    header h2 { font-size: 1rem;   font-weight: 400; opacity: 0.8; margin-top: 3px; }
+
+    .body-row {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    nav.sidebar {
+      width: 230px;
+      min-width: 160px;
+      background: #fff;
+      border-right: 1px solid #dee2e6;
+      padding: 14px 8px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .sidebar-heading {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: #adb5bd;
+      padding: 0 8px 8px;
+    }
+    .nav-link {
+      display: block;
+      padding: 7px 12px;
+      margin-bottom: 2px;
+      border-radius: 5px;
+      color: #495057;
+      text-decoration: none;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      transition: background 0.15s, color 0.15s;
+      cursor: pointer;
+    }
+    .nav-link:hover  { background: #e9ecef; color: #212529; }
+    .nav-link.active { background: #2c3e50; color: #fff; font-weight: 600; }
+
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .panel        { display: none; }
+    .panel.active { display: block; }
+
+    h2.section-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 22px 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #dee2e6;
+    }
+    h2.section-title:first-child { margin-top: 0; }
+
+    .fig-wrap {
+      width: 100%;
+      background: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .fig-frame {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    @media (max-width: 680px) {
+      body        { height: auto; overflow: auto; }
+      .body-row   { flex-direction: column; overflow: visible; }
+      main        { overflow: visible; }
+      nav.sidebar {
+        width: 100%; border-right: none; border-bottom: 1px solid #dee2e6;
+        display: flex; flex-wrap: wrap; gap: 3px; padding: 8px;
+      }
+      .sidebar-heading { display: none; }
+      .nav-link   { padding: 5px 10px; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Journal Observatory Dashboard</h1>
+  <h2>Use of Visualizations for Continuous Data</h2>
+</header>
+
+<div class="body-row">
+  <nav class="sidebar">
+    <div class="sidebar-heading">Fields</div>
+    <a class="nav-link active" href="#" data-panel="panel-global" onclick="return showPanel(this)">GLOBAL</a>
+    <a class="nav-link" href="#" data-panel="panel-CARDIAC_&_CARDIOVASCULAR_SYSTEMS" onclick="return showPanel(this)">CARDIAC & CARDIOVASCULAR SYSTEMS</a>
+    <a class="nav-link" href="#" data-panel="panel-CLINICAL_NEUROLOGY" onclick="return showPanel(this)">CLINICAL NEUROLOGY</a>
+    <a class="nav-link" href="#" data-panel="panel-ENDOCRINOLOGY_&_METABOLISM" onclick="return showPanel(this)">ENDOCRINOLOGY & METABOLISM</a>
+    <a class="nav-link" href="#" data-panel="panel-GENETICS_&_HEREDITY" onclick="return showPanel(this)">GENETICS & HEREDITY</a>
+    <a class="nav-link" href="#" data-panel="panel-IMMUNOLOGY" onclick="return showPanel(this)">IMMUNOLOGY</a>
+    <a class="nav-link" href="#" data-panel="panel-NEUROSCIENCES" onclick="return showPanel(this)">NEUROSCIENCES</a>
+    <a class="nav-link" href="#" data-panel="panel-ONCOLOGY" onclick="return showPanel(this)">ONCOLOGY</a>
+    <a class="nav-link" href="#" data-panel="panel-ORTHOPEDICS" onclick="return showPanel(this)">ORTHOPEDICS</a>
+    <a class="nav-link" href="#" data-panel="panel-PHARMACOLOGY_&_PHARMACY" onclick="return showPanel(this)">PHARMACOLOGY & PHARMACY</a>
+    <a class="nav-link" href="#" data-panel="panel-PHYSIOLOGY" onclick="return showPanel(this)">PHYSIOLOGY</a>
+    <a class="nav-link" href="#" data-panel="panel-RHEUMATOLOGY" onclick="return showPanel(this)">RHEUMATOLOGY</a>
+    <a class="nav-link" href="#" data-panel="panel-UROLOGY_&_NEPHROLOGY" onclick="return showPanel(this)">UROLOGY & NEPHROLOGY</a>
+  </nav>
+
+  <main id="main-content">
+    <div id="panel-global" class="panel active">
+  <h2 class="section-title">Global Aggregated Trend</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/global_aggregated.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Global Aggregated Trend by Field</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/global_per_field_aggregated.html" class="fig-frame" style="height:1900px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-CARDIAC_&_CARDIOVASCULAR_SYSTEMS" class="panel">
+  <h2 class="section-title">Aggregated Trend - CARDIAC & CARDIOVASCULAR SYSTEMS</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_CARDIAC_&_CARDIOVASCULAR_SYSTEMS.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - CARDIAC & CARDIOVASCULAR SYSTEMS</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_CARDIAC_&_CARDIOVASCULAR_SYSTEMS.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-CLINICAL_NEUROLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - CLINICAL NEUROLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_CLINICAL_NEUROLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - CLINICAL NEUROLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_CLINICAL_NEUROLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-ENDOCRINOLOGY_&_METABOLISM" class="panel">
+  <h2 class="section-title">Aggregated Trend - ENDOCRINOLOGY & METABOLISM</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_ENDOCRINOLOGY_&_METABOLISM.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - ENDOCRINOLOGY & METABOLISM</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_ENDOCRINOLOGY_&_METABOLISM.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-GENETICS_&_HEREDITY" class="panel">
+  <h2 class="section-title">Aggregated Trend - GENETICS & HEREDITY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_GENETICS_&_HEREDITY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - GENETICS & HEREDITY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_GENETICS_&_HEREDITY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-IMMUNOLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - IMMUNOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_IMMUNOLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - IMMUNOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_IMMUNOLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-NEUROSCIENCES" class="panel">
+  <h2 class="section-title">Aggregated Trend - NEUROSCIENCES</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_NEUROSCIENCES.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - NEUROSCIENCES</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_NEUROSCIENCES.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-ONCOLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - ONCOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_ONCOLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - ONCOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_ONCOLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-ORTHOPEDICS" class="panel">
+  <h2 class="section-title">Aggregated Trend - ORTHOPEDICS</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_ORTHOPEDICS.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - ORTHOPEDICS</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_ORTHOPEDICS.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-PHARMACOLOGY_&_PHARMACY" class="panel">
+  <h2 class="section-title">Aggregated Trend - PHARMACOLOGY & PHARMACY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_PHARMACOLOGY_&_PHARMACY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - PHARMACOLOGY & PHARMACY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_PHARMACOLOGY_&_PHARMACY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-PHYSIOLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - PHYSIOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_PHYSIOLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - PHYSIOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_PHYSIOLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-RHEUMATOLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - RHEUMATOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_RHEUMATOLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - RHEUMATOLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_RHEUMATOLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+
+<div id="panel-UROLOGY_&_NEPHROLOGY" class="panel">
+  <h2 class="section-title">Aggregated Trend - UROLOGY & NEPHROLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_aggregated_UROLOGY_&_NEPHROLOGY.html" class="fig-frame" style="height:650px;"></iframe>
+  </div>
+  <h2 class="section-title">Individual Journal Trends - UROLOGY & NEPHROLOGY</h2>
+  <div class="fig-wrap">
+    <iframe src="figures/field_journals_facets_UROLOGY_&_NEPHROLOGY.html" class="fig-frame" style="height:2000px;"></iframe>
+  </div>
+</div>
+  </main>
+</div>
+
+<script>
+  function showPanel(link) {
+    document.querySelectorAll('.nav-link').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    document.querySelectorAll('.panel').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    link.classList.add('active');
+    var panel = document.getElementById(link.getAttribute('data-panel'));
+    if (panel) {
+      panel.classList.add('active');
+      document.getElementById('main-content').scrollTop = 0;
+    }
+    return false;
+  }
+</script>
+
+</body>
+</html>
